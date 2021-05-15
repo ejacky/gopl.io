@@ -29,3 +29,11 @@ func PopCount(x uint64) int {
 }
 
 //!-
+
+func PopCount_2_3(x uint64) int {
+	var count byte
+	for i := 0; i < 8; i++ {
+		count = count + pc[byte(x>>(i*8))]
+	}
+	return int(count)
+}
