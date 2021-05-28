@@ -21,13 +21,11 @@ func main() {
 }
 
 func printText(counts map[string]int, n *html.Node) {
-	if n.Type == html.ElementNode && (n.Data == "style" || n.Data == "script") {
-		specialElem = 1
-		fmt.Print("tag:")
-		fmt.Println(n.Data)
-	}
-	if n.Type == html.TextNode && specialElem != 1 {
-		fmt.Println(strings.TrimSpace(strings.Trim(n.Data, "\n")))
+	if n.Type == html.TextNode && !(n.Parent.Type == html.ElementNode && (n.Parent.Data == "style" || n.Parent.Data == "script") && len(n.Data) != 0) {
+		str := strings.TrimSpace(strings.Trim(n.Data, "\n"))
+		if len(str) > 0 {
+			fmt.Println(str)
+		}
 	}
 
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
