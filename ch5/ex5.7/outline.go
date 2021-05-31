@@ -8,10 +8,9 @@ package main
 
 import (
 	"fmt"
+	"golang.org/x/net/html"
 	"net/http"
 	"os"
-
-	"golang.org/x/net/html"
 )
 
 func main() {
@@ -27,7 +26,13 @@ func outline(url string) error {
 	}
 	defer resp.Body.Close()
 
+	//file, err := os.Open("t.html")
+	//if err != nil {
+	//	return err
+	//}
 	doc, err := html.Parse(resp.Body)
+	fmt.Println(doc)
+
 	if err != nil {
 		return err
 	}
@@ -65,17 +70,16 @@ var depth int
 
 func startElement(n *html.Node) {
 	if n.Type == html.ElementNode {
-		fmt.Printf("%*s<%s", depth*2, "", n.Data)
 		var attr string
 		for _, a := range n.Attr {
-			//if a.Key == "href" {
-			//	links = append(links, a.Val)
-			//}
 			attr += " " + a.Key + "=\"" + a.Val + "\""
 		}
-		fmt.Printf("%s>\n", attr)
 
-		//fmt.Printf("%*s<%s>\n", depth*2, "", n.Data)
+		if n.Data != "img" {
+			fmt.Printf("%*s<%s%s>\n", depth*2, "", n.Data, attr)
+		} else {
+			fmt.Printf("%*s<%s%s/>\n", depth*2, "", n.Data, attr)
+		}
 
 		depth++
 	}
@@ -84,14 +88,17 @@ func startElement(n *html.Node) {
 	}
 
 	if n.Type == html.CommentNode {
-		fmt.Printf("%*s%s\n", depth*2, "", n.Data)
+		fmt.Println(n.Data)
+		//fmt.Printf("%*s%s\n", depth*2, "", n.Data)
 	}
 }
 
 func endElement(n *html.Node) {
 	if n.Type == html.ElementNode {
 		depth--
-		fmt.Printf("%*s</%s>\n", depth*2, "", n.Data)
+		if n.Data != "img" {
+			fmt.Printf("%*s</%s>\n", depth*2, "", n.Data)
+		}
 	}
 }
 
