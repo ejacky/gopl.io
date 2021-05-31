@@ -65,11 +65,26 @@ var depth int
 
 func startElement(n *html.Node) {
 	if n.Type == html.ElementNode {
-		fmt.Printf("%*s<%s>\n", depth*2, "", n.Data)
+		fmt.Printf("%*s<%s", depth*2, "", n.Data)
+		var attr string
+		for _, a := range n.Attr {
+			//if a.Key == "href" {
+			//	links = append(links, a.Val)
+			//}
+			attr += " " + a.Key + "=\"" + a.Val + "\""
+		}
+		fmt.Printf("%s>\n", attr)
+
+		//fmt.Printf("%*s<%s>\n", depth*2, "", n.Data)
+
 		depth++
 	}
 	if n.Type == html.TextNode {
+		fmt.Printf("%*s%s\n", depth*2, "", n.Data)
+	}
 
+	if n.Type == html.CommentNode {
+		fmt.Printf("%*s%s\n", depth*2, "", n.Data)
 	}
 }
 
