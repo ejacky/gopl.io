@@ -18,7 +18,7 @@ func main() {
 	defer file.Close()
 
 	doc, _ := html.Parse(file)
-	node := ElementByID(doc, "ccc")
+	node := ElementByID(doc, "img_id")
 	fmt.Println(node.Data)
 
 	for _, a := range node.Attr {
