@@ -47,7 +47,7 @@ func topoSort(m map[string][]string) []string {
 	var visitAll func(items []string)
 
 	visitAll = func(items []string) {
-		for course, _ := range m {
+		for _, course := range items {
 			if !seen[course] {
 				seen[course] = true
 				visitAll(m[course])
