@@ -4,7 +4,12 @@
 // See page 101.
 
 // Package treesort provides insertion sort using an unbalanced binary tree.
-package treesort
+package ex7_3
+
+import (
+	"bytes"
+	"fmt"
+)
 
 //!+
 type tree struct {
@@ -48,3 +53,23 @@ func add(t *tree, value int) *tree {
 }
 
 //!-
+
+func (t *tree) String() string {
+	var sortInt []int
+	sortInt = appendValues(sortInt, t)
+
+	return intsToString(sortInt)
+}
+
+func intsToString(values []int) string {
+	var buf bytes.Buffer
+	buf.WriteByte('[')
+	for i, v := range values {
+		if i > 0 {
+			buf.WriteString(", ")
+		}
+		fmt.Fprintf(&buf, "%d", v)
+	}
+	buf.WriteByte(']')
+	return buf.String()
+}
