@@ -19,9 +19,8 @@ const timeout = 30 * time.Second
 
 //!+broadcaster
 type client struct {
-	Out     chan<- string // an outgoing message channel
-	Name    string
-	LastMsg time.Time
+	Out  chan<- string // an outgoing message channel
+	Name string
 }
 
 var (
